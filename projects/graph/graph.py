@@ -129,7 +129,21 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        visited = []
+        answer = []
+
+        def search(path, target):
+            if path[-1] not in visited:
+                visited.append(path[-1])
+                if path[-1] == target:
+                    answer.append(path)
+                    return path
+                for vert in self.get_neighbors(path[-1]):
+                    new_path = path + [vert]
+                    search(new_path, target)
+
+        search([starting_vertex], destination_vertex)
+        return answer[0]
 
 
 if __name__ == '__main__':
