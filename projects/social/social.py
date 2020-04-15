@@ -6,6 +6,23 @@ class User:
         self.name = name
 
 
+class Queue():
+    def __init__(self):
+        self.queue = []
+
+    def enqueue(self, value):
+        self.queue.append(value)
+
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+
+    def size(self):
+        return len(self.queue)
+
+
 class SocialGraph:
     def __init__(self):
         self.last_id = 0
@@ -73,9 +90,21 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
-        visited = {}  # Note that this is a dictionary, not a set
+        my_network = {
+        }  # Note that this is a dictionary, not a set - friend_id:[path]
         # !!!! IMPLEMENT ME
-        return visited
+        queue = Queue()
+        queue.enqueue([user_id])
+        visited = set()
+        while queue.size() > 0:
+            path = queue.dequeue()
+            if path[-1] not in visited:
+                visited.add(path[-1])
+                my_network[path[-1]] = path
+                for friend in self.friendships[path[-1]]:
+                    queue.enqueue(path + [friend])
+
+        return my_network
 
 
 if __name__ == '__main__':
