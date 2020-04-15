@@ -90,21 +90,19 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
-        my_network = {
-        }  # Note that this is a dictionary, not a set - friend_id:[path]
-        # !!!! IMPLEMENT ME
+        # Note that this is a dictionary, not a set - friend_id:[path]
+        visited = {}
+
         queue = Queue()
         queue.enqueue([user_id])
-        visited = set()
         while queue.size() > 0:
             path = queue.dequeue()
             if path[-1] not in visited:
-                visited.add(path[-1])
-                my_network[path[-1]] = path
+                visited[path[-1]] = path
                 for friend in self.friendships[path[-1]]:
                     queue.enqueue(path + [friend])
 
-        return my_network
+        return visited
 
 
 if __name__ == '__main__':
